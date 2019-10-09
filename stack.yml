@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+    recortes-api:
+        build: .
+        image: recortes-api
+        container_name: recortes-api
+        command: gunicorn -b 0.0.0.0:80 --timeout 90 recortes.wsgi
+        ports:
+            - 8001:80
+        environment:
+            HOST: host
+            DATABASE: db
+            USER: user
+            PASS: pass
+
+    recortes-cli:
+        image: nginx:1.17
+        container_name: recortes-cli
+        ports:
+            - 81:80
+        volumes:
+            - ./recortes-cli/build:/usr/share/nginx/html
