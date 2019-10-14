@@ -3,11 +3,17 @@ from datetime import datetime
 from rest_framework import viewsets
 from rest_framework.response import Response
 from orator.exceptions.orm import ModelNotFound
-from .serializers import RecorteSerializer
+from .serializers import RecorteSerializer, RecorteDetailSerializer
 from .models import RecorteDb
 
 
 class RecorteViewSet(viewsets.ViewSet):
+
+    def retrieve(self, request, pk=None):
+        recorte = RecorteDb.find_or_fail(pk)
+        serializer = RecorteDetailSerializer(instance=recorte)
+        return Response(serializer.data)
+
     def list(self, request):
         recortes = []
         resultado = []

@@ -1,16 +1,24 @@
 
-import './index.css';
-import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import * as serviceWorker from './serviceWorker';
+
+import App from './App';
+import { mensagemReducer, exibicaoMensagemReducer } from './reducers';
 
 
-ReactDOM.render(<BrowserRouter>
-    <Switch>
-        <Route path="/" exact={true} component={App} />
-    </Switch>
-</ BrowserRouter>, document.getElementById('root'));
+const recorteStore = createStore(combineReducers({
+    mensagem: mensagemReducer,
+    exibicao: exibicaoMensagemReducer
+}))
+
+ReactDOM.render(
+    <Provider store={recorteStore}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
 
 serviceWorker.unregister();
